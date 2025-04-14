@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>CyberNote</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <div id="toolbar">
+        <button id="addNoteBtn">+ Jegyzet</button>
+    </div>
+
+    <div id="canvasContainer">
+        <div id="canvas"></div>
+        <canvas id="connectionCanvas"></canvas>
+    </div>
+
+    <!-- Jegyzet létrehozó modál -->
+    <div id="noteModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Új jegyzet</h2>
+            <form id="noteForm">
+                <label for="name">Név:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="level">Szint:</label>
+                <input type="text" id="level" name="level">
+
+                <label for="parent">Szülő ID:</label>
+                <input type="number" id="parent" name="parent" min="1">
+
+                <label for="color">Szín:</label>
+                <input type="color" id="color" name="color" value="#f4f4f4">
+
+                <label for="content">Tartalom:</label>
+                <textarea id="content" name="content" rows="4"></textarea>
+
+                <div class="modal-buttons">
+                    <button type="submit">Hozzáadás</button>
+                    <button type="button" id="closeModal">Mégse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Jegyzet szerkesztő modál -->
+    <div id="editModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Jegyzet szerkesztése</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+
+                <label for="editName">Név:</label>
+                <input type="text" id="editName" required>
+
+                <label for="editColor">Szín:</label>
+                <input type="color" id="editColor" name="editColor">
+
+                <label for="editContent">Tartalom:</label>
+                <textarea id="editContent" rows="4"></textarea>
+
+                <div class="modal-buttons">
+                    <button type="submit">Mentés</button>
+                    <button type="button" id="deleteNote" class="danger">Törlés</button>
+                    <button type="button" id="closeEditModal">Mégse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
