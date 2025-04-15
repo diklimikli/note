@@ -16,16 +16,36 @@ let connections = [];
 let currentDraggedNote = null;
 let offsetX, offsetY;
 
-const levelColorMap = {};
-const availableColors = ["#ffe0b2", "#c8e6c9", "#bbdefb", "#f8bbd0", "#d7ccc8", "#e1bee7", "#fff9c4"];
-let colorIndex = 0;
+const availableColors = [
+    // Soft tones
+    "#ffe0b2", "#c8e6c9", "#bbdefb", "#f8bbd0", "#d7ccc8", "#e1bee7", "#fff9c4",
+  
+    // Cyberpunk / Retrowave
+    "#ff007f", "#00ffe7", "#8aff00", "#ff00ff", "#ff6ec7", "#00ffff", "#ffcc00",
+    "#7f00ff", "#00ff90", "#ff3cac", "#2eecff", "#f72585", "#7209b7",
+  
+    // New additions
+    "#ff8a65", // coral
+    "#ce93d8", // pastel purple
+    "#81d4fa", // sky blue
+    "#a5d6a7", // mint green soft
+    "#ffd54f", // sunflower
+    "#ffb74d", // orange sherbet
+    "#64ffda", // aqua glow
+    "#ba68c8", // deep lavender
+    "#ff5252", // hot coral
+    "#c6ff00", // neon chartreuse
+    "#40c4ff", // vibrant sky blue
+    "#d500f9", // electric violet
+    "#ff4081", // bold pink
+    "#69f0ae", // neon mint
+    "#fbc02d", // golden yellow
+    "#ff1744"  // vivid red
+  ];
+  
 
-function getColorForLevel(level) {
-    if (!levelColorMap[level]) {
-        levelColorMap[level] = availableColors[colorIndex % availableColors.length];
-        colorIndex++;
-    }
-    return levelColorMap[level];
+function getRandomColor() {
+  return availableColors[Math.floor(Math.random() * availableColors.length)];
 }
 
 function createNoteElement(note) {
@@ -33,7 +53,7 @@ function createNoteElement(note) {
     div.className = "note";
     div.style.left = note.x + "px";
     div.style.top = note.y + "px";
-    div.style.backgroundColor = getColorForLevel(note.level);
+    div.style.backgroundColor = note.color;
     div.dataset.id = note.id;
     div.innerHTML = `
         <div class="note-card">
@@ -100,8 +120,6 @@ noteForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
     const content = document.getElementById("content").value;
-    const level = document.getElementById("level").value || 0;
-    const parent = parseInt(document.getElementById("parent").value) || null;
     const id = Date.now();
     const note = {
         id,
@@ -109,13 +127,9 @@ noteForm.addEventListener("submit", (e) => {
         content,
         x: 100 + Math.random() * 300,
         y: 100 + Math.random() * 300,
-        level,
-        parent,
+        color: getRandomColor()
     };
     notes.push(note);
-    if (parent) {
-        connections.push({ from: parent, to: id });
-    }
     noteModal.classList.add("hidden");
     noteForm.reset();
     renderNotes();
@@ -158,6 +172,22 @@ document.addEventListener("mousemove", (e) => {
         }
     }
 });
+
+// Betölti a jegyzeteket a Flask API-ból
+function loadNotesFromBackend() {
+    fetch('/notes')
+        .then(response => response.json())
+        .then(notes => {
+            notes.forEach(note => {
+                // Jegyzetek létrehozása a frontend-en
+                const noteElement = createNoteElement(note);
+                document.getElementById("canvas").appendChild(noteElement);
+            });
+        })
+        .catch(error => console.error('Hiba a jegyzetek betöltésekor:', error));
+}
+
+
 
 document.addEventListener("mouseup", () => {
     currentDraggedNote = null;

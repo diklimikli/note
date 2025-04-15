@@ -1,9 +1,10 @@
 body {
     font-family: monospace;
-    background: #1a1a2e;
+    background: #ffffff;
     color: #fff;
     margin: 0;
     overflow: hidden;
+    border-radius: 1px;
 }
 
 #toolbar {
@@ -17,11 +18,10 @@ body {
 
 button {
     font-family: monospace;
-    border-radius: 10px;
     font-size: 16px;
     padding: 8px 12px;
     cursor: pointer;
-    border: 2px solid #ff0080;
+    border: 1px solid #ff0080;
     background: #0f0f1a;
     color: #ffccff;
     box-shadow: 2px 2px 0 #ff0080;
@@ -54,7 +54,7 @@ button {
     word-wrap: break-word;
     resize: both;
     overflow: auto;
-    border-radius: 10px;
+    border-radius: 1px;
 }
 
 .note-card {
@@ -68,11 +68,11 @@ button {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #ff99ff;
+    color: #8b3e8b;
 }
 
 .note-content {
-    color: #ffffff;
+    color: #000000;
 }
 
 canvas#connectionCanvas {
@@ -152,3 +152,16 @@ canvas#connectionCanvas {
     background-color: #ff0080;
     color: white;
 }
+  .dark-mode {
+    background-color: #111;
+    color: #fff;
+  }
+
+  .dark-mode .note {
+    border: 1px solid #999;
+  }
+
+  .dark-mode input, .dark-mode textarea {
+    background-color: #222;
+    color: #eee;
+  }
