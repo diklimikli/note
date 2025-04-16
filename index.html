@@ -2,9 +2,26 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>CyberNote</title>
+    <title>Jegyzet</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
+
+
+<div id="themeSwitcher">
+    <button id="toggleTheme">🌓 Téma</button>
+</div>
+
+<div id="lofiPlayer">
+    <iframe width="250" height="140" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=0" 
+        title="lofi hip hop radio" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+    </iframe>
+</div>
+
+
 <body class="dark-mode">
     <div id="toolbar">
         <button id="addNoteBtn">+ Jegyzet</button>
@@ -22,15 +39,10 @@
             <form id="noteForm">
                 <label for="name">Név:</label>
                 <input type="text" id="name" name="name" required>
-
-                <label for="level">Szint:</label>
+                <label for="level">Kategória:</label>
                 <input type="text" id="level" name="level">
-
-                
-
                 <label for="content">Tartalom:</label>
                 <textarea id="content" name="content" rows="4"></textarea>
-
                 <div class="modal-buttons">
                     <button type="submit">Hozzáadás</button>
                     <button type="button" id="closeModal">Mégse</button>
@@ -45,16 +57,10 @@
             <h2>Jegyzet szerkesztése</h2>
             <form id="editForm">
                 <input type="hidden" id="editId">
-
                 <label for="editName">Név:</label>
                 <input type="text" id="editName" required>
-
-                <label for="editColor">Szín:</label>
-                <input type="color" id="editColor" name="editColor">
-
                 <label for="editContent">Tartalom:</label>
                 <textarea id="editContent" rows="4"></textarea>
-
                 <div class="modal-buttons">
                     <button type="submit">Mentés</button>
                     <button type="button" id="deleteNote" class="danger">Törlés</button>

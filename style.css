@@ -1,10 +1,9 @@
 body {
     font-family: monospace;
-    background: #ffffff;
-    color: #fff;
+    background-image:url('static/bg1.png');
     margin: 0;
     overflow: hidden;
-    border-radius: 1px;
+   
 }
 
 #toolbar {
@@ -46,7 +45,7 @@ button {
     max-width: 300px;
     padding: 0;
     background-color: #0f0f1a;
-    border: 2px solid #ff00cc;
+    border: 2px solid #000000;
     font-family: monospace;
     font-size: 1em;
     box-shadow: 4px 4px 0 #ff0080;
@@ -59,9 +58,9 @@ button {
 
 .note-card {
     padding: 12px;
-    border-radius: 8px;
+    border-radius: 1px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed #ff66cc;
+    border: 1px dashed #000000;
 }
 
 .note-title {
@@ -148,20 +147,38 @@ canvas#connectionCanvas {
     box-shadow: 2px 2px 0 #ff0080;
 }
 
-.modal-buttons button[type="submit"] {
-    background-color: #ff0080;
-    color: white;
+/* Téma váltó */
+#themeSwitcher {
+    position: fixed;
+    top: 10px;
+    left: 120px;
+    z-index: 200;
 }
-  .dark-mode {
-    background-color: #111;
-    color: #fff;
-  }
 
-  .dark-mode .note {
-    border: 1px solid #999;
-  }
+#toggleTheme {
+    font-family: monospace;
+    font-size: 14px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border: 1px solid #ff0080;
+    background: #0f0f1a;
+    color: #ffccff;
+    box-shadow: 2px 2px 0 #ff0080;
+}
 
-  .dark-mode input, .dark-mode textarea {
-    background-color: #222;
-    color: #eee;
-  }
+/* Lofi lejátszó */
+#lofiPlayer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 150;
+    box-shadow: 0 0 10px #ff0080;
+    border-radius: 8px;
+    overflow: hidden;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+#lofiPlayer:hover {
+    opacity: 1;
+}

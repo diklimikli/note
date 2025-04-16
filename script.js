@@ -187,6 +187,16 @@ function loadNotesFromBackend() {
         .catch(error => console.error('Hiba a jegyzetek betöltésekor:', error));
 }
 
+// 🌗 Téma váltó
+const toggleThemeBtn = document.getElementById("toggleTheme");
+toggleThemeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode");
+});
+
+// 🌈 Automatikusan világos/dark mód osztály kezelés (CSS alapból dark)
+document.body.classList.add("dark-mode");
+
 
 
 document.addEventListener("mouseup", () => {
