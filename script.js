@@ -86,7 +86,7 @@ function updateLevelDisplay() {
   const levelDisplay = document.getElementById("levelDisplay");
   const uniqueLevels = [...new Set(notes.map(n => n.level))];
 
-  levelDisplay.innerHTML = "<strong>Kategóriák:</strong><br>";
+  levelDisplay.innerHTML = "<strong>categories:</strong><br>";
   uniqueLevels.forEach(level => {
     const color = getColorByLevel(level);
     const tag = `

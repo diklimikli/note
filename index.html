@@ -2,13 +2,13 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Jegyzet</title>
+    <title>NoteBuk</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="dark-mode">
     <div id="themeSwitcher">
-        <button id="toggleTheme">🌓 Téma</button>
+        <button id="toggleTheme">🌓 night/light</button>
     </div>
 
     <div id="lofiPlayer">
@@ -21,7 +21,7 @@
     </div>
 
     <div id="toolbar">
-        <button id="addNoteBtn">+ Jegyzet</button>
+        <button id="addNoteBtn">+ new note</button>
     </div>
 
     <div id="canvasContainer">
@@ -36,18 +36,18 @@
     <!-- Jegyzet létrehozó modál -->
     <div id="noteModal" class="modal hidden">
         <div class="modal-content">
-            <h2>Új jegyzet</h2>
+            <h2>new Note</h2>
             <form id="noteForm">
-                <label for="name">Név:</label>
+                <label for="name">name:</label>
                 <input type="text" id="name" name="name" required>
-                <label for="level">Kategória:</label>
+                <label for="level">categories:</label>
                 <select id="level" name="level"></select>
 
-                <label for="content">Tartalom:</label>
+                <label for="content">content:</label>
                 <textarea id="content" name="content" rows="4"></textarea>
                 <div class="modal-buttons">
-                    <button type="submit">Hozzáadás</button>
-                    <button type="button" id="closeModal">Mégse</button>
+                    <button type="submit">create</button>
+                    <button type="button" id="closeModal">nope</button>
                 </div>
             </form>
         </div>
@@ -56,17 +56,17 @@
     <!-- Jegyzet szerkesztő modál -->
     <div id="editModal" class="modal hidden">
         <div class="modal-content">
-            <h2>Jegyzet szerkesztése</h2>
+            <h2>easy format</h2>
             <form id="editForm">
                 <input type="hidden" id="editId">
-                <label for="editName">Név:</label>
+                <label for="editName">name:</label>
                 <input type="text" id="editName" required>
-                <label for="editContent">Tartalom:</label>
+                <label for="editContent">content:</label>
                 <textarea id="editContent" rows="4"></textarea>
                 <div class="modal-buttons">
-                    <button type="submit">Mentés</button>
-                    <button type="button" id="deleteNote" class="danger">Törlés</button>
-                    <button type="button" id="closeEditModal">Mégse</button>
+                    <button type="submit">save</button>
+                    <button type="button" id="deleteNote" class="danger">smash it!</button>
+                    <button type="button" id="closeEditModal">nope</button>
                 </div>
             </form>
         </div>
