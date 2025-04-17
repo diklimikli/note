@@ -1,36 +1,45 @@
 body {
     font-family: monospace;
-    background-image:url('static/bg1.png');
+    background-image: url('static/bg1.png');
     margin: 0;
     overflow: hidden;
-   
 }
 
-#toolbar {
+#toolbar, #themeSwitcher {
     position: fixed;
     top: 10px;
-    left: 10px;
     z-index: 100;
-    display: flex;
+    display: grid;
     gap: 10px;
+    
 }
 
-button {
+#themeSwitcher {
+    left: 160px;
+    z-index: 200;
+    
+}
+
+button,
+.modal-buttons button,
+#toggleTheme {
     font-family: monospace;
-    font-size: 16px;
-    padding: 8px 12px;
+    font-size: 20px;
+    padding: 8px 20px;
     cursor: pointer;
     border: 1px solid #ff0080;
     background: #0f0f1a;
     color: #ffccff;
     box-shadow: 2px 2px 0 #ff0080;
+    margin-left: 12px;
+    border-radius: 10px;
 }
 
 #canvasContainer {
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
 }
 
 #canvas {
@@ -43,9 +52,8 @@ button {
     position: absolute;
     min-width: 200px;
     max-width: 300px;
-    padding: 0;
     background-color: #0f0f1a;
-    border: 2px solid #000000;
+    border: 2px solid #000;
     font-family: monospace;
     font-size: 1em;
     box-shadow: 4px 4px 0 #ff0080;
@@ -53,25 +61,25 @@ button {
     word-wrap: break-word;
     resize: both;
     overflow: auto;
-    border-radius: 1px;
+    border-radius: 2px;
 }
 
 .note-card {
     padding: 12px;
-    border-radius: 1px;
+    border-radius: 2px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed #000000;
+    border: 1px dashed #000;
 }
 
 .note-title {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #8b3e8b;
+    color: #fff;
 }
 
 .note-content {
-    color: #000000;
+    color: #000;
 }
 
 canvas#connectionCanvas {
@@ -102,11 +110,14 @@ canvas#connectionCanvas {
 .modal-content {
     background-color: #0f0f1a;
     border: 2px solid #ff0080;
-    padding: 20px;
-    width: 300px;
+    padding: 15px;
+    width: 380px;
     font-family: monospace;
     border-radius: 10px;
     color: #fff;
+    
+    
+    
 }
 
 .modal-content h2 {
@@ -117,56 +128,73 @@ canvas#connectionCanvas {
 .modal-content label {
     display: block;
     margin-top: 10px;
+    
 }
 
 .modal-content input,
-.modal-content textarea {
+.modal-content textarea,
+.modal-content select {
     width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 5px;
     font-family: monospace;
     font-size: 1em;
-    margin-top: 5px;
     background: #1a1a2e;
     color: #fff;
     border: 1px solid #ff66cc;
+    box-sizing: border-box;
+    border-radius: 4px;
 }
 
-.modal-buttons {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+    outline: none;
+    border-color: #ff99ff;
+    box-shadow: 0 0 4px #ff66cc;
+    
 }
 
-.modal-buttons button {
-    font-family: monospace;
-    padding: 5px 10px;
-    border: 2px solid #ff0080;
-    background: #0f0f1a;
-    color: #ffccff;
-    box-shadow: 2px 2px 0 #ff0080;
+.note-level-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 3px #00000050;
+    cursor: help;
 }
 
-/* Téma váltó */
-#themeSwitcher {
+.level-display {
     position: fixed;
-    top: 10px;
-    left: 120px;
-    z-index: 200;
-}
-
-#toggleTheme {
-    font-family: monospace;
+    top: 80px;
+    right: 20px;
+    background: rgba(30, 30, 30, 0.8);
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
     font-size: 14px;
-    padding: 8px 15px;
-    cursor: pointer;
-    border: 1px solid #ff0080;
-    background: #0f0f1a;
-    color: #ffccff;
-    box-shadow: 2px 2px 0 #ff0080;
+    max-width: 200px;
+    z-index: 1000;
 }
 
-/* Lofi lejátszó */
+.level-tag {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.level-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid white;
+}
+
+/* Lofi Player */
 #lofiPlayer {
     position: fixed;
     bottom: 20px;
@@ -181,4 +209,39 @@ canvas#connectionCanvas {
 
 #lofiPlayer:hover {
     opacity: 1;
+}
+
+/* Dark / Light Theme stílusok */
+body.dark-mode {
+    background-color: #0f0f1a;
+    color: white;
+}
+
+body.light-mode {
+    background-color: #fdfdfd;
+    color: #000;
+}
+
+body.light-mode .note {
+    background-color: #fff;
+    color: #000;
+}
+
+body.light-mode .note-card {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #ddd;
+}
+
+body.light-mode .modal-content {
+    background-color: #fff;
+    color: #000;
+    border-color: #ccc;
+}
+
+body.light-mode .modal-content input,
+body.light-mode .modal-content textarea,
+body.light-mode .modal-content select {
+    background: #f0f0f0;
+    color: #000;
+    border-color: #aaa;
 }
