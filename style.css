@@ -1,28 +1,28 @@
+/* --- Alap Beállítások --- */
 body {
     font-family: monospace;
-    background-image: url('static/bg1.png');
+    background-image: url("static/bg1.png");
+    background-size: cover;
     margin: 0;
     overflow: hidden;
+    position: relative;
 }
 
+/* --- Toolbar és ThemeSwitcher --- */
 #toolbar, #themeSwitcher {
     position: fixed;
     top: 10px;
-    z-index: 100;
     display: grid;
     gap: 10px;
-    
+    z-index: 100;
 }
 
 #themeSwitcher {
     left: 160px;
     z-index: 200;
-    
 }
 
-button,
-.modal-buttons button,
-#toggleTheme {
+button, .modal-buttons button, #toggleTheme {
     font-family: monospace;
     font-size: 18px;
     padding: 8px 20px;
@@ -31,65 +31,96 @@ button,
     background: #0f0f1a;
     color: #ffccff;
     box-shadow: 2px 2px 0 #ff0080;
-    margin-left: 12px;
     border-radius: 10px;
 }
 
+/* --- Canvas Container --- */
 #canvasContainer {
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+/* --- Fő Canvas --- */
+#canvas, #connectionCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #canvas {
-    position: absolute;
-    width: 5000px;
-    height: 5000px;
+    width: 7000px;
+    height: 700vh;
+    white-space: nowrap;
 }
 
+#connectionCanvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --- Note (jegyzet) --- */
 .note {
     position: absolute;
-    min-width: 200px;
-    max-width: 300px;
-    background-color: #0f0f1a;
+    width: 220px;
+    max-width: 90vw;
+    min-height: 100px;
+    max-height: 300px;
+    background-color: #222;
     border: 2px solid #000;
     font-family: monospace;
     font-size: 1em;
     box-shadow: 4px 4px 0 #ff0080;
-    cursor: move;
-    word-wrap: break-word;
+    border-radius: 10px;
+    padding: 10px;
+    color: #fff;
+    box-sizing: border-box;
     resize: both;
     overflow: auto;
-    border-radius: 2px;
+    cursor: move;
 }
 
+/* --- Note Card --- */
 .note-card {
-    padding: 12px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed #000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .note-title {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #fff;
+    color: #000000;
 }
 
 .note-content {
-    color: #000;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    flex-grow: 1;
+    color: #000000;
 }
 
-canvas#connectionCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    pointer-events: none;
+/* --- Note Scrollbar --- */
+.note::-webkit-scrollbar {
+    width: 6px;
 }
 
+.note::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.note::-webkit-scrollbar-thumb {
+    background: #ff3cac;
+    border-radius: 3px;
+}
+
+/* --- Modal --- */
 .modal {
     position: fixed;
     top: 0;
@@ -100,7 +131,7 @@ canvas#connectionCanvas {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 500;
 }
 
 .modal.hidden {
@@ -110,14 +141,14 @@ canvas#connectionCanvas {
 .modal-content {
     background-color: #0f0f1a;
     border: 2px solid #ff0080;
-    padding: 15px;
-    width: 380px;
-    font-family: monospace;
+    padding: 20px;
+    width: 420px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
     border-radius: 10px;
-    color: #fff;
-    
-    
-    
+    color: #ffffff;
+    font-family: monospace;
 }
 
 .modal-content h2 {
@@ -128,7 +159,6 @@ canvas#connectionCanvas {
 .modal-content label {
     display: block;
     margin-top: 10px;
-    
 }
 
 .modal-content input,
@@ -137,13 +167,13 @@ canvas#connectionCanvas {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
-    font-family: monospace;
-    font-size: 1em;
     background: #1a1a2e;
     color: #fff;
     border: 1px solid #ff66cc;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 1em;
     box-sizing: border-box;
-    border-radius: 4px;
 }
 
 .modal-content input:focus,
@@ -152,9 +182,14 @@ canvas#connectionCanvas {
     outline: none;
     border-color: #ff99ff;
     box-shadow: 0 0 4px #ff66cc;
-    
 }
 
+/* --- Modal Buttons --- */
+.modal-buttons button {
+    margin-left: 20px;
+}
+
+/* --- Szint Kijelzők --- */
 .note-level-indicator {
     position: absolute;
     top: 5px;
@@ -183,18 +218,18 @@ canvas#connectionCanvas {
 .level-tag {
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    margin: 5px 0;
 }
 
 .level-color {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    margin-right: 8px;
+    margin-right: 5px;
     border: 1px solid white;
 }
 
-/* Lofi Player */
+/* --- Lofi Player --- */
 #lofiPlayer {
     position: fixed;
     bottom: 20px;
@@ -211,37 +246,52 @@ canvas#connectionCanvas {
     opacity: 1;
 }
 
-/* Dark / Light Theme stílusok */
-body.dark-mode {
-    background-color: #0f0f1a;
-    color: white;
+/* --- Görgetősávok --- */
+/* Fő oldalon */
+body::-webkit-scrollbar {
+    width: 8px;
 }
 
-body.light-mode {
-    background-color: #fdfdfd;
-    color: #000;
+body::-webkit-scrollbar-track {
+    background: #111;
 }
 
-body.light-mode .note {
-    background-color: #fff;
-    color: #000;
+body::-webkit-scrollbar-thumb {
+    background: #ff3cac;
+    border-radius: 4px;
 }
 
-body.light-mode .note-card {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: #ddd;
+/* CanvasContainer vízszintes scroll */
+#canvasContainer::-webkit-scrollbar {
+    height: 12px;
 }
 
-body.light-mode .modal-content {
-    background-color: #fff;
-    color: #000;
-    border-color: #ccc;
+#canvasContainer::-webkit-scrollbar-track {
+    background-color: #2e2e2e;
 }
 
-body.light-mode .modal-content input,
-body.light-mode .modal-content textarea,
-body.light-mode .modal-content select {
-    background: #f0f0f0;
-    color: #000;
-    border-color: #aaa;
+#canvasContainer::-webkit-scrollbar-thumb {
+    background-color: #ff5733;
+    border-radius: 10px;
+    border: 3px solid #2e2e2e;
 }
+
+#canvasContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #ff3300;
+}
+/* Jegyzetekhez hozzáadott fogaskerék */
+.note .edit-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff66cc;
+    z-index: 1;
+}
+
+/* A fogaskerék hover állapot */
+.note .edit-icon:hover {
+    color: #ff3cac;
+}
+

@@ -1,3 +1,4 @@
+// Elemszelektorok
 const canvas = document.getElementById("canvas");
 const ctx = document.getElementById("connectionCanvas").getContext("2d");
 const addNoteBtn = document.getElementById("addNoteBtn");
@@ -7,8 +8,10 @@ const closeModal = document.getElementById("closeModal");
 const editModal = document.getElementById("editModal");
 const editForm = document.getElementById("editForm");
 const closeEditModal = document.getElementById("closeEditModal");
-const deleteNoteBtn = document.getElementById("deleteNote");
+const deleteNoteBtn = document.getElementById("deleteNoteBtn");
+const clearContentBtn = document.getElementById("clearContentBtn");
 
+// Adatok
 let notes = [];
 let connections = [];
 let currentDraggedNote = null;
@@ -21,15 +24,14 @@ const availableColors = [
   "#ff8a65", "#ce93d8", "#81d4fa", "#a5d6a7", "#ffd54f", "#ffb74d", "#64ffda",
   "#ba68c8", "#ff5252", "#c6ff00", "#40c4ff", "#d500f9", "#ff4081", "#69f0ae", "#fbc02d", "#ff1744"
 ];
-
-const categories = ["munka", "saját", "projekt", "macska", "kutya", "ló", "tehén"];
+const categories = ["munka", "saját", "projekt", "prod01", "prod02", "prod04", "prod05"];
 const levelColorMap = {};
 
-// Legördülő lista feltöltése
+// Kategória legördülő feltöltése
 const levelInput = document.getElementById("level");
 levelInput.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join("");
 
-// Kategóriához szín rendelés
+// Szín hozzárendelés kategóriákhoz
 function getColorByLevel(level) {
   if (!levelColorMap[level]) {
     levelColorMap[level] = availableColors[Math.floor(Math.random() * availableColors.length)];
@@ -37,6 +39,7 @@ function getColorByLevel(level) {
   return levelColorMap[level];
 }
 
+// Jegyzet DOM elem létrehozása
 function createNoteElement(note) {
   const div = document.createElement("div");
   div.className = "note";
@@ -52,13 +55,8 @@ function createNoteElement(note) {
       <div class="note-content">${note.content}</div>
     </div>`;
 
-  div.addEventListener("mousedown", (e) => {
-    currentDraggedNote = div;
-    offsetX = e.offsetX;
-    offsetY = e.offsetY;
-  });
-
-  div.addEventListener("dblclick", () => {
+  // Kattintás a szerkesztés megnyitásához
+  div.addEventListener("click", () => {
     const id = parseInt(div.dataset.id);
     const note = notes.find((n) => n.id === id);
     if (note) {
@@ -69,9 +67,22 @@ function createNoteElement(note) {
     }
   });
 
+  // Egér drag indítása
+  div.addEventListener("mousedown", (e) => {
+    currentDraggedNote = div;
+    offsetX = e.offsetX;
+    offsetY = e.offsetY;
+  });
+
   return div;
 }
 
+// Tartalom törlés gomb
+clearContentBtn.addEventListener("click", () => {
+  document.getElementById("content").value = "";
+});
+
+// Jegyzetek újrarajzolása
 function renderNotes() {
   canvas.innerHTML = "";
   notes.forEach((note) => {
@@ -82,22 +93,22 @@ function renderNotes() {
   updateLevelDisplay();
 }
 
+// Kategória színek megjelenítése
 function updateLevelDisplay() {
   const levelDisplay = document.getElementById("levelDisplay");
   const uniqueLevels = [...new Set(notes.map(n => n.level))];
-
   levelDisplay.innerHTML = "<strong>categories:</strong><br>";
   uniqueLevels.forEach(level => {
     const color = getColorByLevel(level);
-    const tag = `
+    levelDisplay.innerHTML += `
       <div class="level-tag">
         <div class="level-color" style="background-color: ${color};"></div>
         <span>${level}</span>
       </div>`;
-    levelDisplay.innerHTML += tag;
   });
 }
 
+// Jegyzet kapcsolatok kirajzolása
 function drawConnections() {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   connections.forEach(({ from, to }) => {
@@ -116,34 +127,26 @@ function drawConnections() {
   });
 }
 
-addNoteBtn.addEventListener("click", () => {
-  noteModal.classList.remove("hidden");
-});
+// Gomb események
+addNoteBtn.addEventListener("click", () => noteModal.classList.remove("hidden"));
+closeModal.addEventListener("click", () => noteModal.classList.add("hidden"));
+closeEditModal.addEventListener("click", () => editModal.classList.add("hidden"));
 
-closeModal.addEventListener("click", () => {
-  noteModal.classList.add("hidden");
-});
-
+// Új jegyzet létrehozás
 noteForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = document.getElementById("name").value;
   const content = document.getElementById("content").value;
   const level = document.getElementById("level").value;
   const id = Date.now();
-  const note = {
-    id,
-    name,
-    content,
-    x: 100 + Math.random() * 300,
-    y: 100 + Math.random() * 300,
-    level
-  };
+  const note = { id, name, content, x: 100 + Math.random() * 300, y: 100 + Math.random() * 300, level };
   notes.push(note);
   noteModal.classList.add("hidden");
   noteForm.reset();
   renderNotes();
 });
 
+// Jegyzet szerkesztése
 editForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const id = parseInt(document.getElementById("editId").value);
@@ -156,6 +159,7 @@ editForm.addEventListener("submit", (e) => {
   renderNotes();
 });
 
+// Jegyzet törlése
 deleteNoteBtn.addEventListener("click", () => {
   const id = parseInt(document.getElementById("editId").value);
   notes = notes.filter((n) => n.id !== id);
@@ -164,10 +168,7 @@ deleteNoteBtn.addEventListener("click", () => {
   renderNotes();
 });
 
-closeEditModal.addEventListener("click", () => {
-  editModal.classList.add("hidden");
-});
-
+// Drag mozgatás egérrel
 document.addEventListener("mousemove", (e) => {
   if (currentDraggedNote) {
     const id = parseInt(currentDraggedNote.dataset.id);
@@ -182,13 +183,59 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
+// Drag mozgatás mobilon (touch)
+document.addEventListener("touchstart", (e) => {
+  const touch = e.touches[0];
+  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (target && target.closest(".note")) {
+    currentDraggedNote = target.closest(".note");
+    offsetX = touch.clientX - currentDraggedNote.offsetLeft;
+    offsetY = touch.clientY - currentDraggedNote.offsetTop;
+  }
+});
+
+document.addEventListener("touchmove", (e) => {
+  if (currentDraggedNote) {
+    e.preventDefault(); // Ne scrollozzon közben
+    const touch = e.touches[0];
+    const id = parseInt(currentDraggedNote.dataset.id);
+    const note = notes.find((n) => n.id === id);
+    if (note) {
+      note.x = touch.pageX - offsetX;
+      note.y = touch.pageY - offsetY;
+      currentDraggedNote.style.left = note.x + "px";
+      currentDraggedNote.style.top = note.y + "px";
+      drawConnections();
+    }
+  }
+}, { passive: false });
+
 document.addEventListener("mouseup", () => {
   currentDraggedNote = null;
 });
-
-const toggleThemeBtn = document.getElementById("toggleTheme");
-toggleThemeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  document.body.classList.toggle("light-mode");
+document.addEventListener("touchend", () => {
+  currentDraggedNote = null;
 });
-document.body.classList.add("dark-mode");
+
+let editMode = false;
+
+// Gomb események
+document.getElementById('editNoteButton').addEventListener('click', function() {
+    editMode = !editMode;
+    this.textContent = editMode ? '✅ Kilépés szerkesztésből' : '✏️ Szerkesztő mód';
+});
+
+// Jegyzetek szerkesztése, ha szerkesztő mód aktív
+canvas.addEventListener('click', function(e) {
+  const note = e.target.closest('.note');
+  if (note && editMode) {
+    const id = parseInt(note.dataset.id);
+    const noteData = notes.find((n) => n.id === id);
+    if (noteData) {
+      document.getElementById("editId").value = noteData.id;
+      document.getElementById("editName").value = noteData.name;
+      document.getElementById("editContent").value = noteData.content;
+      editModal.classList.remove("hidden");
+    }
+  }
+});

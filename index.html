@@ -1,77 +1,73 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
-    <title>NoteBuk</title>
+    <title>LifeLog</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<div id="lofiPlayer">
+    <iframe width="250" height="140" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=0" title="Lofi"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
+</div>
 
-<body class="dark-mode">
-    <div id="themeSwitcher">
-        <button id="toggleTheme">🌓 night/light</button>
+<div id="toolbar">
+    <button id="addNoteBtn">+ new lifelog</button>
+</div>
+
+<div id="canvasContainer">
+    <div id="canvas"></div>
+    <canvas id="connectionCanvas"></canvas>
+</div>
+
+<div id="levelDisplay" class="level-display">
+    <!-- A jegyzetek szintjeinek megjelenítése ide kerül -->
+     
+</div>
+
+<!-- Jegyzet létrehozó modál -->
+<div id="noteModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>new Log</h2>
+        <form id="noteForm">
+            <label for="name">name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="level">logCategories:</label>
+            <select id="level" name="level"></select>
+
+            <label for="content">memories:</label>
+            <textarea id="content" name="content" rows="4"></textarea>
+            <div class="modal-buttons">
+                <button type="submit">create</button>
+                <button type="button" id="clearContentBtn" class="danger">clear!</button>
+                <button type="button" id="closeModal">delete</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div id="lofiPlayer">
-        <iframe width="250" height="140" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=0" 
-            title="lofi hip hop radio" 
-            frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen>
-        </iframe>
+<!-- Jegyzet szerkesztő modál -->
+<div id="editModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>easy format</h2>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+            <label for="editName">name:</label>
+            <input type="text" id="editName" required>
+            <label for="editContent">content:</label>
+            <textarea id="editContent" rows="4"></textarea>
+            <div class="modal-buttons">
+                <button type="submit">save</button>
+                <button type="button" id="deleteNoteBtn" class="danger">forget!</button>
+                <button type="button" id="closeEditModal">nope</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div id="toolbar">
-        <button id="addNoteBtn">+ new note</button>
-    </div>
 
-    <div id="canvasContainer">
-        <div id="canvas"></div>
-        <canvas id="connectionCanvas"></canvas>
-    </div>
-
-    <div id="levelDisplay" class="level-display">
-        <!-- A jegyzetek szintjeinek megjelenítése ide kerül -->
-    </div>
-
-    <!-- Jegyzet létrehozó modál -->
-    <div id="noteModal" class="modal hidden">
-        <div class="modal-content">
-            <h2>new Note</h2>
-            <form id="noteForm">
-                <label for="name">name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="level">categories:</label>
-                <select id="level" name="level"></select>
-
-                <label for="content">content:</label>
-                <textarea id="content" name="content" rows="4"></textarea>
-                <div class="modal-buttons">
-                    <button type="submit">create</button>
-                    <button type="button" id="closeModal">nope</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Jegyzet szerkesztő modál -->
-    <div id="editModal" class="modal hidden">
-        <div class="modal-content">
-            <h2>easy format</h2>
-            <form id="editForm">
-                <input type="hidden" id="editId">
-                <label for="editName">name:</label>
-                <input type="text" id="editName" required>
-                <label for="editContent">content:</label>
-                <textarea id="editContent" rows="4"></textarea>
-                <div class="modal-buttons">
-                    <button type="submit">save</button>
-                    <button type="button" id="deleteNote" class="danger">smash it!</button>
-                    <button type="button" id="closeEditModal">nope</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
+
 </html>
